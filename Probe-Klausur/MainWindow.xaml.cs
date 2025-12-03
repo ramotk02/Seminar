@@ -57,18 +57,15 @@ namespace Probe_Klausur
                 return;
             }
 
-            // Récupération des données sélectionnées dans le ListView
             DataRowView row = (DataRowView)DSeminare.SelectedItem;
 
-            // Création d'un objet Buchung
             Buchung neueBuchung = new Buchung
             {
-                teilnehmerId = 1, // ID du participant (fixe ici, peut être dynamique)
+                teilnehmerId = 1, 
                 seminarId = Convert.ToInt32(row["SeminarId"]),
                 Buchungsdatum = DateTime.Now
             };
 
-            // Affichage pour test/debug
             MessageBox.Show($"SeminarId={neueBuchung.seminarId}, TeilnehmerId={neueBuchung.teilnehmerId}");
 
             try
@@ -79,7 +76,6 @@ namespace Probe_Klausur
                     string query = "INSERT INTO buchung (SeminarId, TeilnehmerId, Buchungsdatum) VALUES (@seminarId, @teilnehmerId, @datum)";
                     MySqlCommand cmd = new MySqlCommand(query, conn);
 
-                    // Utilisation de l'objet Buchung pour les paramètres
                     cmd.Parameters.AddWithValue("@datum", neueBuchung.Buchungsdatum);
                     cmd.Parameters.AddWithValue("@seminarId", neueBuchung.seminarId);
                     cmd.Parameters.AddWithValue("@teilnehmerId", neueBuchung.teilnehmerId);
